@@ -31,8 +31,10 @@ public class TreeNode {
 
 ##### Алгоритм прохода по бинарному дереву
 
+###### В глубину (DFS)
+
 ```swift
-var stack: [TreeNode] = [root]
+var stack: [TreeNode] = [root] // дерево
 var current: TreeNode? = root.left
 
 while !stack.isEmpty || current != nil {
@@ -44,6 +46,25 @@ while !stack.isEmpty || current != nil {
         // тут можно фиксировать текущую позицию через topNode
 
         current = topNode.right // переключаемся на на правую и по новой
+    }
+}
+```
+
+###### В ширину (ВFS)
+
+```swift
+var queue: [TreeNode] = [root] // дерево
+
+while !queue.isEmpty {
+    let node = queue.removeFirst()
+
+    // тут можно фиксировать текущую позицию через node
+
+    if let left = node.left {
+        queue.append(left)
+    }
+    if let right = node.right {
+        queue.append(right)
     }
 }
 ```
