@@ -36,7 +36,7 @@ public class TreeNode {
 ```swift
 var stack: [TreeNode] = [root] // дерево
 
-while !stack.isEmpty || current != nil {
+while !stack.isEmpty {
     let node = stack.popLast()
 
     // тут можно фиксировать текущую позицию через node
