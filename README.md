@@ -35,17 +35,17 @@ public class TreeNode {
 
 ```swift
 var stack: [TreeNode] = [root] // дерево
-var current: TreeNode? = root.left
 
 while !stack.isEmpty || current != nil {
-    while let node = current {
-        stack.append(node)
-        current = node.left // проходим по левым веткам
-    }
-    if let topNode = stack.popLast() {
-        // тут можно фиксировать текущую позицию через topNode
+    let node = stack.popLast()
 
-        current = topNode.right // переключаемся на на правую и по новой
+    // тут можно фиксировать текущую позицию через node
+
+    if let left = node?.left {
+        stack.append(left)
+    }
+    if let right = node?.right {
+        stack.append(right)
     }
 }
 ```
