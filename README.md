@@ -4,7 +4,9 @@
 * [Граф](#граф)
    - [Дерево](#дерево)
       - [Бинарное дерево](#бинарное-дерево)
-
+          - [DFS](#dfs)
+          - [BFS](#вfs)
+* []()
 
 ## Граф
 
@@ -31,7 +33,7 @@ public class TreeNode {
 
 ##### Алгоритм прохода по бинарному дереву
 
-###### В глубину (DFS)
+###### DFS
 
 ```swift
 var stack: [TreeNode] = [root] // дерево
@@ -50,13 +52,13 @@ while !stack.isEmpty {
 }
 ```
 
-###### В ширину (ВFS)
+###### ВFS
 
 ```swift
 var queue: [TreeNode] = [root] // дерево
 
 while !queue.isEmpty {
-    let node = queue.removeFirst()
+    let node = queue.popFirst()
 
     // тут можно фиксировать текущую позицию через node
 
