@@ -21,6 +21,7 @@
         - [Алгоритм прохода по бинарному дереву](#алгоритм-прохода-по-бинарному-дереву)
           - [DFS](#dfs)
           - [ВFS](#вfs)
+          - [ВFS послойно](#вfs-послойно)
 
 ## Массив
 
@@ -200,5 +201,29 @@ while !queue.isEmpty {
     if let right = node.right {
         queue.append(right)
     }
+}
+```
+###### ВFS послойно
+
+Слой – уровень глубины дерева
+
+```swift
+var queue: [TreeNode?] = [root]
+
+while !queue.isEmpty {
+    var child = [TreeNode?]()        
+
+    for node in queue {
+        if let left = node?.left {
+            child.append(left)
+        }
+        if let right = node?.right {
+            child.append(right)
+        }
+    }
+
+    // фиксируем слой
+
+    queue = child
 }
 ```
