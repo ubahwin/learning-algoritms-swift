@@ -4,6 +4,13 @@
 
 - [Мои знания алгоритмов для структур данных](#мои-знания-алгоритмов-для-структур-данных)
   - [Содержание](#содержание)
+  - [Templates](#templates)
+    - [Input from command line](#input-from-command-line)
+      - [String](#string)
+      - [Array](#array)
+    - [File input / output](#file-input--output)
+        - [Input](#input)
+        - [Output](#output)
   - [Массив](#массив)
     - [Бинарный поиск](#бинарный-поиск)
     - [Two pointers](#two-pointers)
@@ -22,6 +29,54 @@
           - [DFS](#dfs)
           - [ВFS](#вfs)
           - [ВFS послойно](#вfs-послойно)
+
+## Templates
+
+### Input from command line
+
+#### String
+
+```swift
+CLI: hello
+let input = readLine()!
+
+CLI: 412
+let input = Int(readLine()!)!
+```
+
+#### Array
+
+```swift
+CLI: fas rqw q
+let input = readLine()!.split(separator: " ")
+
+CLI: 12 31 5 65
+let input = readLine()!.split(separator: " ").map { Int($0)! }
+```
+
+### File input / output
+
+##### Input
+
+Current file **input.txt**: `32 12 678`
+
+```swift
+import Foundation
+
+let currentDirectory = FileManager.default.currentDirectoryPath
+let filePath = URL(fileURLWithPath: currentDirectory).appendingPathComponent("input.txt")
+let fileContent = try String(contentsOf: filePath)
+let numbers = fileContent.components(separatedBy: CharacterSet.whitespacesAndNewlines).compactMap { Int($0) }
+```
+
+##### Output
+
+```swift
+let example = 978
+
+let outputFilePath = URL(fileURLWithPath: currentDirectory).appendingPathComponent("output.txt")
+try "\(example)".write(to: outputFilePath, atomically: false, encoding: .utf8)
+```
 
 ## Массив
 
