@@ -154,9 +154,11 @@ public class ListNode {
 #### Алгоритм прохода
 
 ```swift
-var list = ListNode(...)
+let list = ListNode(...)
 
-while list != nil {
+var current = list
+
+while current != nil {
     // фиксируем по current.val
     current = current.next
 }
