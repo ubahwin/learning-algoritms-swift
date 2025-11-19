@@ -330,12 +330,12 @@ class Heap<Element> {
         }
     }
 
+    // MARK: Interface
+
     func push(_ value: Element) {
         elements.append(value)
         siftUp(from: elements.count - 1)
     }
-
-    // MARK: Interface
 
     func peek() -> Element? { elements.first }
 
