@@ -29,6 +29,9 @@
           - [DFS](#dfs)
           - [ВFS](#вfs)
           - [ВFS послойно](#вfs-послойно)
+  - [Priority Queue](#priority-queue)
+    - [Heap](#heap)
+      - [Binary Heap](#binary-heap)
 
 ## Templates
 
@@ -282,5 +285,118 @@ while !queue.isEmpty {
     // фиксируем слой
 
     queue = child
+}
+```
+
+## Priority Queue
+
+`Priority Queue` (очередь с приоритетом) – абстрактная структура данных (ADT), которая определяет интерфейс:
+
+```c++
+push(element)
+
+// Работа с наибольшим / наименьшим приоритетом:
+pop()
+peek()
+```
+
+### Heap
+
+`Heap` – реализация `Priority Queue`
+
+#### Binary Heap
+
+Работает с бинарным деревом. 
+
+Реализация с бинарным деревом через массив:
+
+```swift
+class Heap<Element> {
+
+    private(set) var elements: [Element]
+    private let areSorted: (Element, Element) -> Bool
+
+    init(
+        elements: [Element] = [], 
+        areSorted: @escaping (Element, Element) -> Bool
+    ) {
+        self.elements = elements
+        self.areSorted = areSorted
+
+        if !elements.isEmpty {
+            for i in (0...elements.count / 2 - 1).reversed() {
+                siftDown(from: i)
+            }
+        }
+    }
+
+    func push(_ value: Element) {
+        elements.append(value)
+        siftUp(from: elements.count - 1)
+    }
+
+    // MARK: Interface
+
+    func peek() -> Element? { elements.first }
+
+    func pop() -> Element? {
+        guard !elements.isEmpty else { return nil }
+
+        guard elements.count != 1 else {
+            return elements.removeLast()
+        }
+
+        elements.swapAt(0, elements.count - 1)
+        let item = elements.removeLast()
+        siftDown(from: 0)
+        return item
+    }
+
+    // MARK: Helpers
+
+    private func siftUp(from index: Int) {
+        var child = index
+        var parent = self.parent(of: child)
+
+        while child > 0 && areSorted(elements[child], elements[parent]) {
+            elements.swapAt(child, parent)
+            child = parent
+            parent = self.parent(of: child)
+        }
+    }
+
+    private func siftDown(from index: Int) {
+        var parent = index
+
+        while true {
+            let left = leftChild(of: parent)
+            let right = rightChild(of: parent)
+
+            var candidate = parent
+
+            if left < elements.count && areSorted(elements[left], elements[candidate]) {
+                candidate = left
+            }
+            if right < elements.count && areSorted(elements[right], elements[candidate]) {
+                candidate = right
+            }
+            if candidate == parent { return }
+
+            elements.swapAt(parent, candidate)
+            parent = candidate
+        }
+    }
+
+    private func parent(of index: Int) -> Int { 
+        (index - 1) / 2
+    }
+
+    private func leftChild(of index: Int) -> Int {
+        2 * index + 1
+    }
+
+    private func rightChild(of index: Int) -> Int {
+        2 * index + 2
+    }
 }
 ```
