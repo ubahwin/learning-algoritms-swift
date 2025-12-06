@@ -11,21 +11,25 @@
     - [File input / output](#file-input--output)
         - [Input](#input)
         - [Output](#output)
-  - [Массив](#массив)
-    - [Бинарный поиск](#бинарный-поиск)
+  - [Array](#array-1)
+    - [Binary search](#binary-search)
     - [Two pointers](#two-pointers)
   - [Stack](#stack)
     - [Monotic Stack](#monotic-stack)
-  - [Связный список](#связный-список)
+  - [Queue](#queue)
+    - [Реализации](#реализации)
+      - [Через массив](#через-массив)
+      - [Через два стека](#через-два-стека)
+  - [Linked list](#linked-list)
     - [Односвязный](#односвязный)
       - [Структура](#структура)
       - [Алгоритм прохода](#алгоритм-прохода)
       - [Fast slow](#fast-slow)
     - [Двусвязный](#двусвязный)
       - [Структура](#структура-1)
-  - [Граф](#граф)
-    - [Дерево](#дерево)
-      - [Бинарное дерево](#бинарное-дерево)
+  - [Graph](#graph)
+    - [Tree](#tree)
+      - [Binary tree](#binary-tree)
         - [Структура](#структура-2)
         - [Алгоритм прохода по бинарному дереву](#алгоритм-прохода-по-бинарному-дереву)
           - [DFS](#dfs)
@@ -83,9 +87,9 @@ let outputFilePath = URL(fileURLWithPath: currentDirectory).appendingPathCompone
 try "\(example)".write(to: outputFilePath, atomically: false, encoding: .utf8)
 ```
 
-## Массив
+## Array
 
-### Бинарный поиск
+### Binary search
 
 Поиск в **отсортированном** массиве числа. Грубо говоря, используется метод [двух поинтеров](#two-pointers)
 
@@ -178,7 +182,54 @@ condition:
     nums[i] <= nums[last]
 ```
 
-## Связный список
+## Queue
+
+Queue - структура, реализующая интерфейс:
+
+```c++
+append(element)
+popFirst() -> Element? // <-- отличие от стека
+```
+
+### Реализации
+
+#### Через массив
+
+```swift
+var queue = [Element]()
+```
+
+Сложность `popFirst` равна **O(n)** из-за необходимости сдвигать остальные элементы. Однако в большинстве кейсов этого достаточно
+
+#### Через два стека
+
+```swift
+class Queue<Element> {
+    private var inStack: [Element]
+    private var outStack = [Element]()
+
+    init(_ array: [Element]) {
+        inStack = array
+    }
+
+    func append(_ element: Element) {
+        inStack.append(element)
+    }
+
+    func popFirst() -> Element? {
+        if outStack.isEmpty {
+            while !inStack.isEmpty {
+                outStack.append(inStack.removeLast())
+            }
+        }
+        return outStack.popLast()
+    }
+}
+```
+
+Сложность удаления **O(1)**, кроме случая, когда `inStack` пустой
+
+## Linked list
 
 `Связный список` – цепочка узлов, в которой узел имеет только Данные и Указатель на другой(-ие) узел
 
@@ -245,13 +296,13 @@ public class ListNode {
 }
 ```
 
-## Граф
+## Graph
 
-### Дерево
+### Tree
 
 `Дерево` – граф без циклов
 
-#### Бинарное дерево
+#### Binary tree
 
 `Бинарное дерево` – дерево с 2-мя ветками: Правое и Левое
 
@@ -294,7 +345,7 @@ while !stack.isEmpty {
 ###### ВFS
 
 ```swift
-var queue: [TreeNode] = [root] // дерево
+var queue = Queue<TreeNode>([root])
 
 while !queue.isEmpty {
     let node = queue.popFirst()
@@ -314,23 +365,23 @@ while !queue.isEmpty {
 Слой – уровень глубины дерева
 
 ```swift
-var queue: [TreeNode?] = [root]
+var nodes: [TreeNode?] = [root]
 
 while !queue.isEmpty {
-    var child = [TreeNode?]()        
+    var childs = [TreeNode?]()        
 
-    for node in queue {
+    for node in nodes {
         if let left = node?.left {
-            child.append(left)
+            childs.append(left)
         }
         if let right = node?.right {
-            child.append(right)
+            childs.append(right)
         }
     }
 
     // фиксируем слой
 
-    queue = child
+    nodes = childs
 }
 ```
 
